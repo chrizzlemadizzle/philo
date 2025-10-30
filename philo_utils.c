@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 18:10:12 by cdahne            #+#    #+#             */
+/*   Updated: 2025/10/30 18:20:06 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
+#include <bits/pthreadtypes.h>
 
 int	ft_atol(char *s)
 {
@@ -17,7 +30,7 @@ int	ft_atol(char *s)
 			s++;
 		}
 		else
-			break;
+			break ;
 	}
 	while (*s && *s >= '0' && *s <= '9')
 	{
@@ -27,51 +40,28 @@ int	ft_atol(char *s)
 	return (sign * res);
 }
 
-int	check_data(t_data *data)
-{
-	if (data->num_phils < 1)
-	{
-		printf("One or more Philosophers required.\n");
-		return (1);
-	}
-	if (data->to_die < 60 || data->to_eat < 60 || data->to_sleep < 60)
-	{
-		printf("Please provide durations longer than 60ms.\n");
-		return (1);
-	}
-	if (data->num_phils > INT_MAX ||\
-		data->to_die > INT_MAX ||\
-		data->to_eat > INT_MAX ||\
-		data->to_sleep > INT_MAX ||\
-		data->must_eat > INT_MAX)
-	{
-		printf("Please provide arguments within the scope of INT.\n");
-		return (1);
-	}
-	return (0);
-}
-
 void	ft_log(t_phil *phil, int action)
 {
-	if (phil->full) // make it thread safe?!?!
+	pthread_mutex_t	data_mutex;
+	long			start;
+
+	data_mutex = phil->data->data_mutex;
+	start = start;
+	if (phil->full)
 		return ;
 	pthread_mutex_lock(&phil->data->write_mutex);
 	if (action == DIYING)
-		printf("%08lu %d died\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == FORK_OWN && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d has taken a fork\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == FORK_NEIGH && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d has taken a fork\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == RELEASE_OWN && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d released his own fork\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == RELEASE_OWN && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d released his neighbour's fork\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == EATING && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d is eating\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == SLEEPING && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d is sleeping\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
-	else if (action == THINKING && !getlong(&phil->data->data_mutex, &phil->data->death))
-		printf("%08lu %d is thinking\n", make_timestamp_in_ms(phil->data->start_in_ms), phil->index);
+		printf("%08lu %d died\n", timestamp_ms(start), phil->index);
+	else if (action == FORK_OWN && !getlong(&data_mutex, &phil->data->death))
+		printf("%08lu %d has taken a fork\n", timestamp_ms(start), phil->index);
+	else if (action == FORK_NEIGH && !getlong(&data_mutex, &phil->data->death))
+		printf("%08lu %d has taken a fork\n", timestamp_ms(start), phil->index);
+	else if (action == EATING && !getlong(&data_mutex, &phil->data->death))
+		printf("%08lu %d is eating\n", timestamp_ms(start), phil->index);
+	else if (action == SLEEPING && !getlong(&data_mutex, &phil->data->death))
+		printf("%08lu %d is sleeping\n", timestamp_ms(start), phil->index);
+	else if (action == THINKING && !getlong(&data_mutex, &phil->data->death))
+		printf("%08lu %d is thinking\n", timestamp_ms(start), phil->index);
 	pthread_mutex_unlock(&phil->data->write_mutex);
 }
 
