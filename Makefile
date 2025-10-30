@@ -1,5 +1,5 @@
 NAME = philo
-SRCS = main.c init.c philo_utils.c routines.c routines_utils.c mutex_utils.c time_utils.c
+SRCS = main.c init.c philo_utils.c routines.c routines_utils.c mutex_utils.c time_utils.c checks.c
 OBJS = $(SRCS:.c=.o)
 
 CC = gcc

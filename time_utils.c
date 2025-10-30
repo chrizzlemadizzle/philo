@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   time_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 18:16:20 by cdahne            #+#    #+#             */
+/*   Updated: 2025/10/30 18:34:55 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-long	make_timestamp_in_ms(long start)
+long	timestamp_ms(long start)
 {
 	struct timeval	tv;
 	long			timestamp_in_ms;
@@ -13,7 +25,7 @@ long	make_timestamp_in_ms(long start)
 	return (timestamp_in_ms - start);
 }
 
-long	gettime_in_us(void)
+long	gettime_us(void)
 {
 	struct timeval	tv;
 	long			time_in_us;
@@ -34,7 +46,7 @@ void	custom_usleep(long usec, t_data *data)
 	while (gettime_in_us() - start < usec)
 	{
 		if (getlong(&data->data_mutex, &data->death))
-			break;
+			break ;
 		elapsed = gettime_in_us() - start;
 		remain = usec - elapsed;
 		if (remain > 1e3)

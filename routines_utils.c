@@ -1,14 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routines_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/30 18:10:21 by cdahne            #+#    #+#             */
+/*   Updated: 2025/10/30 18:37:55 by cdahne           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
-int		all_threads_running(pthread_mutex_t *mutex, long *threads, long num_phils)
+int	all_threads_run(t_data *data)
 {
 	int	ret;
 
 	ret = 0;
-	pthread_mutex_lock(mutex);
-	if (*threads == num_phils)
+	pthread_mutex_lock(&data->data_mutex);
+	if (data->threads_running == data->num_phils)
 		ret = 1;
-	pthread_mutex_unlock(mutex);
+	pthread_mutex_unlock(&data->data_mutex);
 	return (ret);
 }
 
@@ -28,11 +40,11 @@ void	ft_eating(t_phil *phil)
 		pthread_mutex_lock(&phil->fork_mutex);
 		ft_log(phil, FORK_OWN);
 	}
-	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, make_timestamp_in_ms(0));
+	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, timestamp_ms(0));
 	phil->meals++;
 	ft_log(phil, EATING);
 	custom_usleep(phil->data->to_eat * 1000, phil->data);
-	if (phil->data->must_eat > 0 && phil->meals == phil->data->must_eat)
+	if (phil->data->meals_max > 0 && phil->meals == phil->data->meals_max)
 		setlong(&phil->phil_mutex, &phil->full, 1);
 	pthread_mutex_unlock(&phil->fork_mutex);
 	pthread_mutex_unlock(&phil->neighbour->fork_mutex);
