@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:10:12 by cdahne            #+#    #+#             */
-/*   Updated: 2025/11/03 12:01:11 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:14:32 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	ft_atol(char *s)
 	return (sign * res);
 }
 
-//!getlong(&data_mutex, &phil->data->death
 void	ft_log(t_phil *phil, int action)
 {
 	long			start;
