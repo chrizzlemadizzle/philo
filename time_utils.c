@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:16:20 by cdahne            #+#    #+#             */
-/*   Updated: 2025/10/30 18:34:55 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 09:25:35 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,18 +42,18 @@ void	custom_usleep(long usec, t_data *data)
 	long	elapsed;
 	long	remain;
 
-	start = gettime_in_us();
-	while (gettime_in_us() - start < usec)
+	start = gettime_us();
+	while (gettime_us() - start < usec)
 	{
 		if (getlong(&data->data_mutex, &data->death))
 			break ;
-		elapsed = gettime_in_us() - start;
+		elapsed = gettime_us() - start;
 		remain = usec - elapsed;
 		if (remain > 1e3)
 			usleep(remain / 2);
 		else
 		{
-			while (gettime_in_us() - start < usec)
+			while (gettime_us() - start < usec)
 				;
 		}
 	}

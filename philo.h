@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:07:55 by cdahne            #+#    #+#             */
-/*   Updated: 2025/10/30 18:37:21 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 09:25:52 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		check_args(int argc, char **argv);
 int		check_data(t_data *data);
 
 // time utils
-long	gettime_in_us(void);
+long	gettime_us(void);
 long	timestamp_ms(long start);
 void	custom_usleep(long usec, t_data *data);
 
