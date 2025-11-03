@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:52:54 by cdahne            #+#    #+#             */
-/*   Updated: 2025/11/03 12:01:39 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:40:52 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,17 @@ int	philosophers(t_data	*data)
 {
 	if (pthread_create(&data->monitor_id, NULL, &monitor_death, data) != 0)
 		return (1);
-	create_threads(data);
+	if (create_threads(data) != 0)
+	{
+		printf("Error while creating threads.\n");
+		return (1);
+	}
 	synchronize_start(data);
-	join_threads(data);
+	if (join_threads(data) != 0)
+	{
+		printf("Error while joining threads.\n");
+		return (1);
+	}
 	setlong(&data->data_mutex, &data->all_full, 1);
 	if (pthread_join(data->monitor_id, NULL) != 0)
 		return (1);
