@@ -6,13 +6,13 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:16:20 by cdahne            #+#    #+#             */
-/*   Updated: 2025/11/03 09:25:35 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:01:32 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long	timestamp_ms(long start)
+long	tstmp_ms(long start)
 {
 	struct timeval	tv;
 	long			timestamp_in_ms;

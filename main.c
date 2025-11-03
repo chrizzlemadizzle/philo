@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 17:52:54 by cdahne            #+#    #+#             */
-/*   Updated: 2025/10/30 18:18:49 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:01:39 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	synchronize_start(t_data *data)
 {
-	data->start_in_ms = timestamp_ms(0);
+	data->start_in_ms = tstmp_ms(0);
 	setlong(&data->data_mutex, &data->threads_created, 1);
 }
 
@@ -49,8 +49,9 @@ int	join_threads(t_data *data)
 	i = 0;
 	while (i < data->num_phils)
 	{
-		if (pthread_join(data->phils[i++].id, NULL) != 0)
+		if (pthread_join(data->phils[i].id, NULL) != 0)
 			return (1);
+		i++;
 	}
 	return (0);
 }

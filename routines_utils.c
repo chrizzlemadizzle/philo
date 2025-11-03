@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:10:21 by cdahne            #+#    #+#             */
-/*   Updated: 2025/10/30 18:37:55 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:01:46 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,30 @@ int	all_threads_run(t_data *data)
 	return (ret);
 }
 
+void	update_meals(t_phil *phil)
+{
+	pthread_mutex_lock(&phil->phil_mutex);
+	phil->meals++;
+	pthread_mutex_unlock(&phil->phil_mutex);
+}
+
 void	ft_eating(t_phil *phil)
 {
 	if (phil->index % 2 == 0)
 	{
 		pthread_mutex_lock(&phil->fork_mutex);
-		ft_log(phil, FORK_OWN);
+		ft_log(phil, FORK);
 		pthread_mutex_lock(&phil->neighbour->fork_mutex);
-		ft_log(phil, FORK_NEIGH);
+		ft_log(phil, FORK);
 	}
 	else
 	{
 		pthread_mutex_lock(&phil->neighbour->fork_mutex);
-		ft_log(phil, FORK_NEIGH);
+		ft_log(phil, FORK);
 		pthread_mutex_lock(&phil->fork_mutex);
-		ft_log(phil, FORK_OWN);
+		ft_log(phil, FORK);
 	}
-	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, timestamp_ms(0));
+	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, tstmp_ms(0));
 	phil->meals++;
 	ft_log(phil, EATING);
 	custom_usleep(phil->data->to_eat * 1000, phil->data);

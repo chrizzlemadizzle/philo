@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:07:55 by cdahne            #+#    #+#             */
-/*   Updated: 2025/11/03 09:25:52 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:01:26 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ typedef struct s_data
 
 typedef enum e_phil_state
 {
-	FORK_OWN,
-	FORK_NEIGH,
-	RELEASE_OWN,
-	RELEASE_NEIGH,
+	FORK,
 	EATING,
 	SLEEPING,
 	THINKING,
@@ -74,7 +71,7 @@ int		check_data(t_data *data);
 
 // time utils
 long	gettime_us(void);
-long	timestamp_ms(long start);
+long	tstmp_ms(long start);
 void	custom_usleep(long usec, t_data *data);
 
 // routines

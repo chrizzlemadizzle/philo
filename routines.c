@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:10:30 by cdahne            #+#    #+#             */
-/*   Updated: 2025/10/30 18:34:25 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:02:09 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	*monitor_death(void *arg)
 	{
 		if (!getlong(&phil->phil_mutex, &phil->full))
 		{
-			if (timestamp_ms(\
+			if (tstmp_ms(\
 				getlong(&phil->phil_mutex, &phil->last_meal_in_ms)) \
 				> data->to_die)
 			{
@@ -48,7 +48,7 @@ void	*ft_phil(void *arg)
 	phil = (t_phil *)arg;
 	while (!getlong(&phil->data->data_mutex, &phil->data->threads_created))
 		;
-	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, timestamp_ms(0));
+	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, tstmp_ms(0));
 	pthread_mutex_lock(&phil->data->data_mutex);
 	phil->data->threads_running++;
 	pthread_mutex_unlock(&phil->data->data_mutex);
@@ -72,11 +72,11 @@ void	*ft_phil_single(void *arg)
 	phil = (t_phil *)arg;
 	while (!getlong(&phil->data->data_mutex, &phil->data->threads_created))
 		;
-	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, timestamp_ms(0));
+	setlong(&phil->phil_mutex, &phil->last_meal_in_ms, tstmp_ms(0));
 	pthread_mutex_lock(&phil->data->data_mutex);
 	phil->data->threads_running++;
 	pthread_mutex_unlock(&phil->data->data_mutex);
-	ft_log(phil, FORK_OWN);
+	ft_log(phil, FORK);
 	while (!getlong(&phil->data->data_mutex, &phil->data->death))
 		usleep(100);
 	return (NULL);
