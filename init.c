@@ -6,7 +6,7 @@
 /*   By: cdahne <cdahne@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/30 18:10:18 by cdahne            #+#    #+#             */
-/*   Updated: 2025/10/30 18:37:41 by cdahne           ###   ########.fr       */
+/*   Updated: 2025/11/03 12:13:25 by cdahne           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ int	init_phils(t_data *data)
 		data->phils[i].index = i + 1;
 		pthread_mutex_init(&data->phils[i].fork_mutex, NULL);
 		data->phils[i].meals = 0;
-		data->phils[i].full = 0;
+		if (data->meals_max == 0)
+			data->phils[i].full = 1;
+		else
+			data->phils[i].full = 0;
 		if (i > 0)
 			data->phils[i].neighbour = &data->phils[i - 1];
 		data->phils[i].data = data;
